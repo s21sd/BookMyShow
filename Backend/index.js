@@ -2,6 +2,8 @@ const express = require("express")
 const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');  // To use the cookie
+const authRotes = require('./Routes/Auth');
+const adminRoutes = require('./Routes/Admin');
 const cors = require("cors");
 const port = 8000;
 require('dotenv').config();
@@ -17,10 +19,15 @@ app.use(
                 callback(new Error('Not allowed by CORS'));
             }
         },
-        credentials: true, 
+        credentials: true,
     })
 );
 app.use(cookieParser());
+
+// Here I am using my router 
+app.use('/auth', authRotes);
+app.use('/admin', adminRoutes);
+
 
 app.get("/", (req, res) => {
     res.json({
