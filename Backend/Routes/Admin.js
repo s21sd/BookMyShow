@@ -2,11 +2,10 @@
 const express = require("express");
 const router = express.Router();
 const Admin = require("../Models/AdminScrema");
-const bcrypt = require('bcrypt');
 const adminTokenHandler = require("../Middlewares/checkAdminToken");
 const errorHandler = require('../Middlewares/errorMiddlewares');
 const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 function createResponse(ok, message, data) {
@@ -37,14 +36,13 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
     try {
-
-
         const { email, password } = req.body;
-        const admin = Admin.findOne({ email});
+        const admin = await Admin.findOne({ email});
+
         if (!admin) {
             return res.status(401).json(createResponse(false, 'User Not Found'));
         }
-
+        
         const isMatch = await bcrypt.compare(password, admin.password);
         if (!isMatch) {
             return res.status(401).json(createResponse(false, 'Password Not Match'));

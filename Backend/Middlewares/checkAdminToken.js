@@ -8,7 +8,7 @@ function checkAdminToken(req, res, next) {
         })
     }
 
-    jwt.verify(adminAuthToken, process.env.JWT_SECRET_KEY, (err, decode) => {
+    jwt.verify(adminAuthToken, process.env.JWT_ADMIN_SECRET_KEY, (err, decode) => {
         if (err) {
             return res.status(401).json({
                 message: 'Admin authentication failed : Invalid Token ',

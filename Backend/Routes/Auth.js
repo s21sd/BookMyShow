@@ -39,9 +39,7 @@ router.post('/register', async (req, res, next) => {
         await newUser.save();
         return res.status(200).json(createResponse(ok, 'User Created Sucessfully'));
     } catch (error) {
-        return ({
-            
-        })
+        next(error);
     }
 })
 
@@ -64,6 +62,9 @@ router.post('/login', async (req, res, next) => {
         refreshToken
     }))
 })
+
+
+
 router.get('/checklogin', authTokenHandler, (req, res) => {
     res.json({
         userId: req.userId,
